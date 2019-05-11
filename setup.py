@@ -5,8 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name='gepics',
-    version='2019.05',
-    packages=find_packages(),
+    version='2019.5.2',
     url="https://github.com/michel4j/gepics",
     license='MIT',
     author='Michel Fodje',
@@ -14,7 +13,11 @@ setup(
     description='Python GObject Wrapper for EPICS Process Variables',
     long_description=long_description,
     long_description_content_type="text/markdown",
+    keywords='epics gobject development',
+    py_modules=['gepics'],
+    install_requires=['pyepics'],
     classifiers=[
+        'Intended Audience :: Developers',
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
