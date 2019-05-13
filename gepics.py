@@ -1,11 +1,16 @@
 from datetime import datetime
 from contextlib import ContextDecorator
+from enum import Enum
 
 import epics
 from gi.repository import GObject
 from epics.ca import current_context, attach_context
 
 CA_CONTEXT = current_context()
+
+
+class Alarm(Enum):
+    NORMAL, WARNING, CRITICAL = range(3)
 
 
 class BasePV(GObject.GObject):
@@ -25,13 +30,14 @@ class BasePV(GObject.GObject):
 
     def set_state(self, **kwargs):
         """
-        Set and emit signals for the current state. Only specified states will be set
+        Set and emit signals for the current state. Only specified states will be set and only if value changes
         :param kwargs: keywords correspond to signal names, values are signal values to emit
         """
 
         for state, value in kwargs.items():
-            self._state[state] = value
-            GObject.idle_add(self.emit, state, value)
+            if self._state.get(state) != value:
+                self._state[state] = value
+                GObject.idle_add(self.emit, state, value)
 
     def get_state(self, item):
         """
@@ -69,6 +75,7 @@ PV_REPR = (
     "    Connected:  {connected}\n"
     ">"
 )
+
 
 
 class PV(BasePV):
@@ -112,7 +119,8 @@ class PV(BasePV):
     def on_change(self, **kwargs):
         self.string = kwargs['type'] in ['time_string', 'time_char']
         value = kwargs['char_value'] if self.string else kwargs['value']
-        self.set_state(changed=value, time=datetime.fromtimestamp(kwargs['timestamp']))
+        alarm = Alarm(kwargs.get('severity', 0))
+        self.set_state(changed=value, time=datetime.fromtimestamp(kwargs['timestamp']), alarm=alarm)
 
     def get(self, *args, **kwargs):
         kwargs['as_string'] = self.string
@@ -133,7 +141,7 @@ class PV(BasePV):
 
     def __repr__(self):
         return PV_REPR.format(
-            name=self.raw.pvname, connected=self.is_active(), alarm=self.raw.severity, time=self.raw.timestamp,
+            name=self.raw.pvname, connected=self.is_active(), alarm=Alarm(self.raw.severity).name, time=self.raw.timestamp,
             access=self.raw.access, count=self.raw.count, type=self.raw.type, server=self.raw.host,
         )
 
