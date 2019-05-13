@@ -1,5 +1,9 @@
 # Changelog
 
+## [2019.5.3] - 2019-05-13
+### Changed
+- Fixed issue where initial events were not being emitted. 
+
 ## [2019.5.2] - 2019-05-12
 ### Added
 - Alarm Enum class with states NORMAL, WARNING, CRITICAL

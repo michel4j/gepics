@@ -26,7 +26,7 @@ class BasePV(GObject.GObject):
 
     def __init__(self, name, monitor=True):
         GObject.GObject.__init__(self)
-        self._state = {'active': False, 'changed': 0, 'alarm': (0, 0)}
+        self._state = {}
 
     def set_state(self, **kwargs):
         """
