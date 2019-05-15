@@ -1,5 +1,9 @@
 # Changelog
 
+## [Unreleased] - 2019-05-14
+### Changed
+- Use EPICS Alarm Severity names for Alarm Enum 
+
 ## [2019.5.3] - 2019-05-13
 ### Changed
 - Fixed issue where initial events were not being emitted. 
