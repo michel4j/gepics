@@ -10,7 +10,7 @@ CA_CONTEXT = current_context()
 
 
 class Alarm(Enum):
-    NORMAL, WARNING, CRITICAL = range(3)
+    NORMAL, MINOR, MAJOR, INVALID = range(4)
 
 
 class BasePV(GObject.GObject):
