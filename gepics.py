@@ -77,7 +77,6 @@ PV_REPR = (
 )
 
 
-
 class PV(BasePV):
     """A Process Variable
 

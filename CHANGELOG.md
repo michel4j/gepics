@@ -1,8 +1,8 @@
 # Changelog
 
-## [Unreleased] - 2019-05-14
+## [2019.5.4] - 2019-05-16
 ### Changed
-- Use EPICS Alarm Severity names for Alarm Enum 
+- Use EPICS Alarm Severity names for Alarm Enum NORMAL, MINOR, MAJOR, INVALID states 
 
 ## [2019.5.3] - 2019-05-13
 ### Changed
