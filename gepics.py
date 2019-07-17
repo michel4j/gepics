@@ -5,7 +5,7 @@ from enum import Enum
 import epics
 import numpy
 
-from gi.repository import GObject
+from gi.repository import GLib, GObject
 from epics.ca import current_context, attach_context
 
 CA_CONTEXT = current_context()
@@ -39,7 +39,7 @@ class BasePV(GObject.GObject):
         for state, value in kwargs.items():
             if not numpy.array_equal([self._state.get(state)], [value]):
                 self._state[state] = value
-                GObject.idle_add(self.emit, state, value)
+                GLib.idle_add(self.emit, state, value)
 
     def get_state(self, item):
         """

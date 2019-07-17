@@ -1,5 +1,10 @@
 # Changelog
 
+## [2019.7.1] - 2019-05-16
+### Changed
+- Support Numpy array values when emitting "changed" signals
+- Fixed GObject.idle_add deprecation  
+
 ## [2019.5.4] - 2019-05-16
 ### Changed
 - Use EPICS Alarm Severity names for Alarm Enum NORMAL, MINOR, MAJOR, INVALID states 
