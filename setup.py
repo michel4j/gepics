@@ -1,6 +1,9 @@
 from setuptools import setup, find_packages
 
-with open("README.md", "r") as fh:
+with open('requirements.txt', 'r', encoding='utf-8') as f:
+    requirements = f.read().splitlines()
+
+with open("README.md", "r", encoding='utf-8') as fh:
     long_description = fh.read()
 
 setup(
@@ -15,7 +18,7 @@ setup(
     long_description_content_type="text/markdown",
     keywords='epics gobject development',
     py_modules=['gepics'],
-    install_requires=['pyepics'],
+    install_requires=requirements,
     classifiers=[
         'Intended Audience :: Developers',
         "Programming Language :: Python :: 3",
