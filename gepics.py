@@ -9,7 +9,7 @@ from gi.repository import GLib, GObject
 from epics.ca import current_context, attach_context
 
 CA_CONTEXT = current_context()
-
+REUSE = False
 
 class Alarm(Enum):
     NORMAL, MINOR, MAJOR, INVALID = range(4)
@@ -110,7 +110,7 @@ class PV(BasePV):
 
     __REGISTRY = {}  # registry for re-using PVs
 
-    def __init__(self, name, monitor=None):
+    def __init__(self, name, monitor=True):
         """
         Process Variable Object
         :param name: PV name
@@ -122,7 +122,7 @@ class PV(BasePV):
         self.string = False
 
         # re-use existing instances
-        if (name, monitor) in self.__REGISTRY:
+        if REUSE and (name, monitor) in self.__REGISTRY:
             self.raw = self.__REGISTRY[(name, monitor)]
         else:
             self.raw = epics.PV(name, callback=self.on_change, connection_callback=self.on_connect, auto_monitor=monitor)
