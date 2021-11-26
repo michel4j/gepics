@@ -40,8 +40,10 @@ class BasePV(GObject.GObject):
         Set and emit signals for the specified states. Re-emits signals even if values are the same
         :param kwargs: keywords correspond to signal names, values are signal values to emit
         """
-        self._state[state] = value
-        GLib.idle_add(self.emit, state, value)
+
+        for state, value in kwargs.items():
+            self._state[state] = value
+            GLib.idle_add(self.emit, state, value)
 
     def get_state(self, item):
         """
