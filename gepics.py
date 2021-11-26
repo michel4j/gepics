@@ -32,14 +32,11 @@ class BasePV(GObject.GObject):
 
     def set_state(self, **kwargs):
         """
-        Set and emit signals for the current state. Only specified states will be set and only if value changes
+        Set and emit signals for the specified states. Re-emits signals even if values are the same
         :param kwargs: keywords correspond to signal names, values are signal values to emit
         """
-
-        for state, value in kwargs.items():
-            if not numpy.array_equal([self._state.get(state)], [value]):
-                self._state[state] = value
-                GLib.idle_add(self.emit, state, value)
+        self._state[state] = value
+        GLib.idle_add(self.emit, state, value)
 
     def get_state(self, item):
         """
