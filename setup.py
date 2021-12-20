@@ -1,4 +1,7 @@
+
 from setuptools import setup, find_packages
+from gepics import get_version
+
 
 with open('requirements.txt', 'r', encoding='utf-8') as f:
     requirements = f.read().splitlines()
@@ -6,9 +9,10 @@ with open('requirements.txt', 'r', encoding='utf-8') as f:
 with open("README.md", "r", encoding='utf-8') as fh:
     long_description = fh.read()
 
+
 setup(
     name='gepics',
-    version='2021.11.2',
+    version=get_version(),
     url="https://github.com/michel4j/gepics",
     license='MIT',
     author='Michel Fodje',
