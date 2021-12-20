@@ -101,24 +101,6 @@ class BasePV(GObject.GObject):
         """
         return self._state
 
-    def get_ctrlvars(self, *args, **kwargs):
-        try:
-            return super().get_ctrlvars(*args, **kwargs)
-        except ChannelAccessGetFailure as e:
-            return { 'upper_disp_limit': 0.0,
-                     'lower_disp_limit': 0.0,
-                     'upper_alarm_limit': numpy.nan,
-                     'upper_warning_limit': numpy.nan,
-                     'lower_warning_limit': numpy.nan,
-                     'lower_alarm_limit': numpy.nan,
-                     'upper_ctrl_limit': 0.0,
-                     'lower_ctrl_limit': 0.0,
-                     'precision': 0,
-                     'units': '',
-                     'status': 0,
-                     'severity': 0
-                    }
-
     def is_active(self):
         """
         Returns True if the process variable is active and connected.
@@ -212,6 +194,8 @@ class PV(BasePV):
             return getattr(self.raw, item)
         except AttributeError:
             raise AttributeError('%r object has no attribute %r' % (self.__class__.__name__, item))
+        except ChannelAccessGetFailure:
+            return None
 
     def __repr__(self):
         return PV_REPR.format(
