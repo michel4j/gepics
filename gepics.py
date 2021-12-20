@@ -1,4 +1,4 @@
-
+import os
 
 from datetime import datetime
 from contextlib import ContextDecorator
@@ -12,9 +12,10 @@ from epics.ca import current_context, attach_context, ChannelAccessGetFailure
 
 CA_CONTEXT = current_context()
 REUSE = False
+PACKAGE_DIR = os.path.dirname(__file__)
 
 
-def get_version(prefix='v'):
+def get_version(prefix='v', package=PACKAGE_DIR):
     import os
     import re
     from subprocess import CalledProcessError, check_output
@@ -27,8 +28,7 @@ def get_version(prefix='v'):
     if version:
         return version.group(1)
 
-    package_dir = os.path.dirname(os.path.dirname(__file__))
-
+    package_dir = package
     if os.path.isdir(os.path.join(package_dir, '.git')):
         # Get the version using "git describe".
         version_cmd = 'git describe --tags --abbrev=0'
