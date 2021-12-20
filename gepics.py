@@ -6,7 +6,7 @@ import epics
 import numpy
 
 from gi.repository import GLib, GObject
-from epics.ca import current_context, attach_context
+from epics.ca import current_context, attach_context, ChannelAccessGetFailure
 
 CA_CONTEXT = current_context()
 REUSE = False
@@ -59,6 +59,24 @@ class BasePV(GObject.GObject):
         Get the full state dictionary for all signals
         """
         return self._state
+
+    def get_ctrlvars(self, *args, **kwargs):
+        try:
+            return super().get_ctrlvars(*args, **kwargs)
+        except ChannelAccessGetFailure as e:
+            return { 'upper_disp_limit': 0.0,
+                     'lower_disp_limit': 0.0,
+                     'upper_alarm_limit': numpy.nan,
+                     'upper_warning_limit': numpy.nan,
+                     'lower_warning_limit': numpy.nan,
+                     'lower_alarm_limit': numpy.nan,
+                     'upper_ctrl_limit': 0.0,
+                     'lower_ctrl_limit': 0.0,
+                     'precision': 0,
+                     'units': '',
+                     'status': 0,
+                     'severity': 0
+                    }
 
     def is_active(self):
         """

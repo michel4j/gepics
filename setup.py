@@ -8,7 +8,7 @@ with open("README.md", "r", encoding='utf-8') as fh:
 
 setup(
     name='gepics',
-    version='2021.7.2',
+    version='2021.7.3',
     url="https://github.com/michel4j/gepics",
     license='MIT',
     author='Michel Fodje',
