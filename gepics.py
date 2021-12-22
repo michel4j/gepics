@@ -173,7 +173,7 @@ class PV(BasePV):
         self.set_state(active=kwargs['conn'])
 
     def on_change(self, **kwargs):
-        self.string = kwargs['type'] in ['time_string', 'time_char']
+        self.string = kwargs['type'] in ['time_string'] or (kwargs['type'] in ['time_char'] and kwargs['count'] > 1)
         value = kwargs['char_value'] if self.string else kwargs['value']
         alarm = Alarm(kwargs.get('severity', 0))
         self.set_state(changed=value, time=datetime.fromtimestamp(kwargs['timestamp']), alarm=alarm)
