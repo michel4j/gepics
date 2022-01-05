@@ -1,14 +1,12 @@
 import os
-
-from datetime import datetime
+import re
 from contextlib import ContextDecorator
+from datetime import datetime
 from enum import Enum
 
 import epics
-import numpy
-
-from gi.repository import GLib, GObject
 from epics.ca import current_context, attach_context, ChannelAccessGetFailure
+from gi.repository import GLib, GObject
 
 CA_CONTEXT = current_context()
 REUSE = False
@@ -16,8 +14,6 @@ PACKAGE_DIR = os.path.dirname(__file__)
 
 
 def get_version(prefix='v', package=PACKAGE_DIR):
-    import os
-    import re
     from subprocess import CalledProcessError, check_output
 
     # Return the version if it has been injected into the file by git-archive
