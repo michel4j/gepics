@@ -121,7 +121,6 @@ PV_REPR = (
 )
 
 
-
 class PV(BasePV):
     """A Process Variable
 
@@ -159,11 +158,21 @@ class PV(BasePV):
         self.string = False
 
         # re-use existing instances
-        if REUSE and (name, monitor) in self.__REGISTRY:
-            self.raw = self.__REGISTRY[(name, monitor)]
+        if REUSE and name in self.__REGISTRY:
+            self.raw = self.__REGISTRY[name]
         else:
-            self.raw = epics.PV(name, callback=self.on_change, connection_callback=self.on_connect, auto_monitor=monitor)
-            self.__REGISTRY[(name, monitor)] = self.raw
+            self.raw = epics.PV(name, auto_monitor=True)
+            self.__REGISTRY[name] = self.raw
+        self.raw.add_callback(self.on_change)
+        self.raw.connection_callbacks.append(self.on_connect)
+
+    def __del__(self):
+        """Clean up the PV instance"""
+        if self.raw:
+            self.raw.remove_callback(self.on_change)
+            self.raw.connection_callbacks.remove(self.on_connect)
+            self.raw = None
+        super(PV, self).__del__()
 
     def on_connect(self, **kwargs):
         self.set_state(active=kwargs['conn'])
@@ -175,7 +184,7 @@ class PV(BasePV):
         self.set_state(changed=value, time=datetime.fromtimestamp(kwargs['timestamp']), alarm=alarm)
 
     def get(self, *args, **kwargs):
-        kwargs['as_string'] = self.string
+        kwargs['as_string'] |= self.string
         return self.raw.get(*args, **kwargs)
 
     def put(self, *args, **kwargs):
