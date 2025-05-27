@@ -165,6 +165,7 @@ class PV(BasePV):
             self.__REGISTRY[name] = self.raw
         self.raw.add_callback(self.on_change)
         self.raw.connection_callbacks.append(self.on_connect)
+        GLib.timeout_add(100, self.update_state)  # make sure we update the state if it is already connected
 
     def __del__(self):
         """Clean up the PV instance"""
@@ -173,6 +174,17 @@ class PV(BasePV):
             self.raw.connection_callbacks.remove(self.on_connect)
             self.raw = None
         super(PV, self).__del__()
+
+    def update_state(self,):
+        """
+        Update the state of the PV and emit signals.
+        This method is called when the PV is connected or its value changes.
+        """
+
+        if self.raw.status == 0:
+            value = self.raw.char_value if self.string else self.raw.value
+            alarm = Alarm(self.raw.severity)
+            self.set_state(active=True, changed=value, time=datetime.fromtimestamp(self.raw.timestamp), alarm=alarm)
 
     def on_connect(self, **kwargs):
         self.set_state(active=kwargs['conn'])
