@@ -1,2 +1,4 @@
 # Default ignored files
+/dictionaries
 /workspace.xml
+copilot.data.*

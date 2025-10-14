@@ -1,5 +1,6 @@
 # Changelog
 
+
 ## [2021.11.1] - 2021-11-26
 ### Changed
 - PVs now emit signals even when their values have not changed.  Devices needing a different behaviour must address that at a lower level, e.g. through the EPICS .MDEL field, or at a higher level using a state machine.
