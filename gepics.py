@@ -160,20 +160,12 @@ class PV(BasePV):
         # re-use existing instances
         if REUSE and name in self.__REGISTRY:
             self.raw = self.__REGISTRY[name]
+            self.raw.add_callback(callback=self.on_change, with_ctrlvars=True)
+            self.raw.connection_callbacks.append(self.on_connect)
+            GLib.timeout_add(100, self.update_state)    # make sure we update the state if it is already connected
         else:
-            self.raw = epics.PV(name, auto_monitor=True)
+            self.raw = epics.PV(name, auto_monitor=True, callback=self.on_change, connection_callback=self.on_connect)
             self.__REGISTRY[name] = self.raw
-        self.raw.add_callback(self.on_change)
-        self.raw.connection_callbacks.append(self.on_connect)
-        GLib.timeout_add(100, self.update_state)  # make sure we update the state if it is already connected
-
-    def __del__(self):
-        """Clean up the PV instance"""
-        if self.raw:
-            self.raw.remove_callback(self.on_change)
-            self.raw.connection_callbacks.remove(self.on_connect)
-            self.raw = None
-        super(PV, self).__del__()
 
     def update_state(self,):
         """
