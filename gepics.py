@@ -188,7 +188,7 @@ class PV(BasePV):
         self.set_state(changed=value, time=datetime.fromtimestamp(kwargs['timestamp']), alarm=alarm)
 
     def get(self, *args, **kwargs):
-        kwargs['as_string'] |= self.string
+        kwargs['as_string'] = self.string | kwargs.get('as_string', False)
         return self.raw.get(*args, **kwargs)
 
     def put(self, *args, **kwargs):
