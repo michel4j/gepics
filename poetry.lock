@@ -117,6 +117,20 @@ files = [
 pycairo = ">=1.16"
 
 [[package]]
+name = "pygobject-stubs"
+version = "2.13.0"
+description = "Typing stubs for PyGObject"
+optional = false
+python-versions = ">=3.9"
+groups = ["dev"]
+files = [
+    {file = "pygobject_stubs-2.13.0.tar.gz", hash = "sha256:4f608f5dfe10c3173f0a082416e22e27b693743c2a635de245c78a51458e2ab6"},
+]
+
+[package.extras]
+dev = ["PyGObject", "black (>=25.1.0)", "codespell (>=2.4.1)", "isort (>=6.0.1)", "pre-commit", "ruff (>=0.9.10)"]
+
+[[package]]
 name = "pyparsing"
 version = "3.2.5"
 description = "pyparsing - Classes and methods to define and execute parsing grammars"
@@ -134,4 +148,4 @@ diagrams = ["jinja2", "railroad-diagrams"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.9"
-content-hash = "0a6e492f89026185bfe39512bf76f91b4a5a9523cc515ebad821000df1d52ad5"
+content-hash = "be80ff217e8b9bb80997f5600a8580f1125de50c4facd0dcbd4b159afe7d58f5"
