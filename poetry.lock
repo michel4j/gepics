@@ -147,5 +147,5 @@ diagrams = ["jinja2", "railroad-diagrams"]
 
 [metadata]
 lock-version = "2.1"
-python-versions = ">=3.9"
-content-hash = "be80ff217e8b9bb80997f5600a8580f1125de50c4facd0dcbd4b159afe7d58f5"
+python-versions = ">=3.9,<4.0"
+content-hash = "1c13d936d88c0a55c2e6b294bfd63dd8ccae51646e13f4c79965eca7eb92f385"
