@@ -8,9 +8,9 @@ license = "MIT"
 readme = "README.md"
 requires-python = ">=3.9,<4.0"
 dependencies = [
-    "pyepics (>=3.5.8,<4.0.0)",
-    "pygobject (>=3.44.0,<4.0.0)",
-    "numpy (>=2.0.0,<3.0.0)"
+    "pyepics",
+    "pygobject",
+    "numpy"
 ]
 dynamic = ["version"]
 
@@ -24,8 +24,6 @@ packages = [
 ]
 version = "0.0.0"
 
-[tool.poetry.group.dev.dependencies]
-pygobject-stubs = "^2.13.0"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0", "poetry-dynamic-versioning>=1.0.0,<2.0.0"]
