@@ -1,3 +1,4 @@
+import logging
 import os
 import re
 from contextlib import ContextDecorator
@@ -192,7 +193,12 @@ class PV(BasePV):
         return self.raw.get(*args, **kwargs)
 
     def put(self, *args, **kwargs):
-        return self.raw.put(*args, **kwargs)
+        try:
+            out = self.raw.put(*args, **kwargs)
+        except epics.ca.CASeverityException as err:
+            logging.warning(f'{self.name}: {err}!')
+            out = None
+        return out
 
     def toggle(self, value1, value2):
         self.raw.put(value1, wait=True)
